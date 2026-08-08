@@ -12,8 +12,6 @@ export default function Home() {
   const profileQuery = `?profile=${profile}`;
 
   // Start Day 1 routing logic:
-  // - default (Aditi) is on Day 12, so "Start Day 1" will resume or go to dashboard, or go to Day 1
-  // - newUser (Rohan) / empty go to Day 1
   const startDayHref = profile === "default" ? `/day/12${profileQuery}` : `/day/1${profileQuery}`;
   const exploreDayHref = `/day/12${profileQuery}`;
   const storyHref = `/story/${profile === "default" ? "default" : profile}${profileQuery}`;
@@ -21,11 +19,10 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-ink text-text font-body selection:bg-amber selection:text-ink relative overflow-hidden">
       
-      {/* Decorative Background Grid (Faint squares resembling streak grid from screenshot) */}
+      {/* Decorative Background Grid */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 z-0">
         <div className="grid grid-cols-6 sm:grid-cols-10 gap-3">
           {Array.from({ length: 40 }).map((_, i) => {
-            // Randomly highlight some blocks slightly, like the screenshot
             const highlight = i === 3 || i === 8 || i === 15 || i === 22 || i === 29;
             return (
               <div
@@ -73,19 +70,29 @@ export default function Home() {
             Pick a track. Build something every day. Prove it with a GitHub commit and a LinkedIn post — and turn 60 days of work into a portfolio recruiters actually look at.
           </p>
 
-          <div className="flex flex-col items-center gap-3 w-full mt-4">
+          <div className="flex flex-col items-center gap-4 w-full mt-4">
             <Link
               href={startDayHref}
               className="w-full max-w-xs rounded-full bg-amber text-ink py-3 text-sm font-bold text-center hover:bg-amber/90 transition-all active:scale-[0.99] cursor-pointer"
             >
               Start Day 1 →
             </Link>
-            <Link
-              href={exploreDayHref}
-              className="text-xs text-text-muted underline hover:text-text transition-colors cursor-pointer"
-            >
-              See what a challenge day looks like
-            </Link>
+            
+            <div className="flex gap-4">
+              <Link
+                href={storyHref}
+                className="text-xs text-amber font-semibold hover:text-amber/80 underline underline-offset-2 transition-colors cursor-pointer"
+              >
+                View AI Builder Story
+              </Link>
+              <span className="text-text-faint text-xs">|</span>
+              <Link
+                href={exploreDayHref}
+                className="text-xs text-text-muted underline hover:text-text transition-colors cursor-pointer"
+              >
+                See what a challenge day looks like
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -160,7 +167,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Developer Sandbox Panel (Keeps testing options cleanly separated) */}
+        {/* Developer Sandbox Panel */}
         <section className="max-w-2xl mx-auto w-full mt-6 pt-6 border-t border-ink-border/50">
           <div className="bg-ink-raised border border-dashed border-amber/30 rounded-2xl p-5">
             <h3 className="text-xs font-bold font-[family-name:var(--font-plex-mono)] text-amber uppercase tracking-wider mb-2">
@@ -191,16 +198,22 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-between items-center text-[11px] text-text-faint">
-              <div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-between items-center mt-5 pt-3 border-t border-ink-border/50">
+              <span className="text-[11px] text-text-faint">
                 Active Simulation: <span className="text-amber font-semibold">{profile}</span>
-              </div>
-              <div className="flex gap-3">
-                <Link href={`/dashboard${profileQuery}`} className="underline hover:text-text-muted">
-                  Open Dashboard
+              </span>
+              <div className="flex gap-3 w-full sm:w-auto">
+                <Link
+                  href={storyHref}
+                  className="w-full sm:w-auto text-center px-4 py-1.5 bg-amber/10 border border-amber/30 text-amber hover:bg-amber/20 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                >
+                  View AI Builder Story →
                 </Link>
-                <Link href={storyHref} className="underline hover:text-text-muted">
-                  Open Story Page
+                <Link
+                  href={`/dashboard${profileQuery}`}
+                  className="w-full sm:w-auto text-center px-4 py-1.5 bg-ink-raised border border-ink-border text-text-muted hover:text-text rounded-lg text-xs font-semibold transition-colors cursor-pointer"
+                >
+                  Go to Dashboard →
                 </Link>
               </div>
             </div>
