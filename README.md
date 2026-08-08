@@ -65,6 +65,7 @@ TypeScript	Type-safe data layer and components
 Tailwind CSS 4	Styling, responsive UI
 JSON data layer	Seeded challenge + profile data (no backend)
 Vercel	Deployment
+
 🏗️ Project Structure
 Techniz-Streak60/
 ├── public/                          static assets
