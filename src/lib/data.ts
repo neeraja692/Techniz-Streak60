@@ -97,6 +97,17 @@ export function getToday(): number {
   return db.meta.today;
 }
 
+/**
+ * The "current day" a given profile is actually on. Only the default
+ * profile has seeded per-day history (through Day 12); 
+ewUser and
+ * empty are always freshly on Day 1, regardless of the global
+ * meta.today value.
+ */
+export function getCurrentDayForProfile(profileKey: ProfileKey): number {
+  return profileKey === "default" ? getToday() : 1;
+}
+
 export function getChallengeLength(): number {
   return db.meta.challengeLength;
 }
@@ -151,3 +162,4 @@ export function buildStreakGrid(profileKey: ProfileKey): DayStatus[] {
   }
   return grid;
 }
+
