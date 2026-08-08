@@ -41,8 +41,8 @@ export default function Home() {
       {/* Header */}
       <header className="w-full max-w-4xl mx-auto px-6 py-6 flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
-          <span className="font-serif font-bold text-xl text-text tracking-tight">AB</span>
-          <span className="font-serif font-bold text-xl text-amber tracking-tight">Talks</span>
+          <span className="font-serif font-bold text-xl text-text tracking-tight">Streak</span>
+          <span className="font-serif font-bold text-xl text-amber tracking-tight">60</span>
         </div>
         <Link
           href={startDayHref}
@@ -224,7 +224,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full max-w-4xl mx-auto px-6 py-6 border-t border-ink-border/50 text-center text-xs text-text-faint font-[family-name:var(--font-plex-mono)] z-10">
-        &copy; {new Date().getFullYear()} ABTalks. Designed for the 60-Day Build Challenge.
+        &copy; {new Date().getFullYear()} Streak60. Designed for the 60-Day Build Challenge.
       </footer>
     </div>
   );
