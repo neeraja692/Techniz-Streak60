@@ -45,3 +45,19 @@ body {
   background: var(--color-amber);
   color: var(--color-ink);
 }
+
+/* Small utility: multi-line clamp for AI summary when Tailwind plugin is not installed */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Fallback for non-WebKit browsers */
+@supports not (-webkit-line-clamp: 1) {
+  .line-clamp-3 {
+    max-height: calc(1.2em * 3); /* 3 lines * line-height */
+    overflow: hidden;
+  }
+}
