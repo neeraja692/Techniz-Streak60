@@ -4,6 +4,7 @@ Streak60 is a 60-day build challenge platform for college students to build cons
 Instead of collecting certificates, Streak60 asks students to build something every day and prove it with a GitHub commit and a LinkedIn post, tracked through a forgiving Momentum Score, achievements, and a recruiter-focused summary page.
 
 🔗 Live demo: https://techniz-streak60.vercel.app/
+
 🔗 Repository: https://github.com/neeraja692/Techniz-Streak60
 
 ✨ Features
