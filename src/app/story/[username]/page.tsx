@@ -1,63 +1,117 @@
 import React from "react";
 import Link from "next/link";
-import { getAllDays, getProfile, resolveProfileKey, computeMomentumScore } from "@/lib/data";
+import { getAllDays, getProfile, resolveProfileKey, computeMomentumScore, getTrackName } from "@/lib/data";
 import TimelineItem from "@/components/TimelineItem";
 
 type Props = {
-  params: { username: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: Promise<{ username: string }>;
+  searchParams: Promise<{ profile?: string }>;
 };
 
-export default function StoryPage({ params, searchParams }: Props) {
-  const profileKey = resolveProfileKey(params.username as any);
+export default async function StoryPage({ params, searchParams }: Props) {
+  const { username } = await params;
+  const { profile: queryProfile } = await searchParams;
+
+  const profileKey = resolveProfileKey(username);
   const profile = getProfile(profileKey);
-  const days = getAllDays().slice(0, 12); // show first 12 for compact story
+  const days = getAllDays().slice(0, 12); // Show first 12 for compact story
 
-  const profileQuery = typeof searchParams?.profile === "string" ? `?profile=${searchParams.profile}` : `?profile=${profileKey}`;
-
+  const profileQuery = queryProfile ? `?profile=${queryProfile}` : `?profile=${profileKey}`;
   const momentum = computeMomentumScore(profileKey);
+  const trackName = getTrackName(profile.track);
 
   return (
-    <div className="min-h-screen p-4 bg-white text-ink-navy">
-      <main className="max-w-md mx-auto">
-        <header className="mb-4">
+    <div className="min-h-screen bg-ink text-text font-body selection:bg-amber selection:text-ink pb-12">
+      <main className="max-w-md mx-auto px-4 pt-6">
+        
+        {/* Header */}
+        <header className="mb-6 flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold">{profile.name}</h1>
-              <p className="text-sm text-gray-600">{params.username}</p>
+            <Link
+              href={`/dashboard${profileQuery}`}
+              className="text-xs font-[family-name:var(--font-plex-mono)] text-text-muted hover:text-text"
+            >
+              ← Back to Dashboard
+            </Link>
+            <span className="text-xs font-[family-name:var(--font-plex-mono)] text-text-faint uppercase tracking-wider">
+              AI Builder Story
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between rounded-xl border border-ink-border bg-ink-raised p-4">
+            <div className="flex flex-col gap-1">
+              <h1 className="text-xl font-bold leading-none text-text">
+                {profile.name}
+              </h1>
+              <p className="text-xs font-[family-name:var(--font-plex-mono)] text-text-muted">
+                {profile.college || "Independent Builder"}
+              </p>
+              {trackName && (
+                <span className="mt-1.5 self-start text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-dim/20 text-amber border border-amber/30">
+                  {trackName}
+                </span>
+              )}
             </div>
-            <div className="text-right">
-              <div className="text-xs text-gray-500">Momentum</div>
-              <div className="text-lg font-medium">{momentum}</div>
+            
+            <div className="text-right flex flex-col gap-1 shrink-0">
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-text-faint font-[family-name:var(--font-plex-mono)]">
+                Momentum
+              </span>
+              <span className="text-2xl font-bold font-[family-name:var(--font-plex-mono)] text-green">
+                {momentum}
+              </span>
             </div>
           </div>
         </header>
 
-        <section className="mb-6">
-          <div className="rounded-lg border border-slate-200 p-3 bg-slate-50">
-            {profile.aiSummary ? (
-              <p className="text-sm leading-snug line-clamp-3">{profile.aiSummary}</p>
-            ) : (
-              <p className="text-sm leading-snug text-gray-600">No AI summary yet 14 submit Day 1 to generate a personalized summary.</p>
-            )}
+        {/* AI Recruiter Summary Block */}
+        <section className="mb-8">
+          <div className="rounded-xl border border-amber/30 bg-amber-dim/10 p-5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-amber/5 rounded-full blur-xl pointer-events-none" />
+            
+            <h2 className="text-xs uppercase font-bold tracking-wider text-amber mb-2.5 font-[family-name:var(--font-plex-mono)] flex items-center gap-1.5">
+              <span>✨</span> AI Recruiter Assessment
+            </h2>
 
-            <div className="mt-3 flex gap-2">
-              <Link href={`/dashboard${profileQuery}`}>
-                <a className="px-3 py-1 text-xs bg-amber-100 text-amber-800 rounded">Back to dashboard</a>
-              </Link>
-            </div>
+            {profile.aiSummary ? (
+              <p className="text-sm leading-relaxed text-text font-light">
+                {profile.aiSummary}
+              </p>
+            ) : (
+              <p className="text-sm leading-relaxed text-text-muted italic font-light">
+                No AI summary yet. Submit Day 1 to generate a personalized summary.
+              </p>
+            )}
           </div>
         </section>
 
+        {/* Builder Timeline */}
         <section>
-          <h3 className="text-sm font-semibold mb-2">Builder Story</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted font-[family-name:var(--font-plex-mono)]">
+              Build Timeline
+            </h3>
+            <span className="text-xs font-[family-name:var(--font-plex-mono)] text-text-faint">
+              Days 1–12
+            </span>
+          </div>
 
-          <div className="space-y-2 mt-2">
+          <div className="space-y-3">
             {days.map((d) => (
               <TimelineItem
                 key={d.day}
                 day={d.day}
-                status={d.status === "missed" ? "missed" : d.status === "locked" ? "locked" : d.status === "pending" ? "pending" : d.submission?.late ? "late" : "completed"}
+                status={
+                  d.status === "missed"
+                    ? "missed"
+                    : d.status === "locked"
+                    ? "locked"
+                    : d.status === "pending"
+                    ? "pending"
+                    : d.submission?.late
+                    ? "late"
+                    : "completed"
+                }
                 title={d.title}
                 caption={d.caption ?? d.description}
                 href={`/day/${d.day}${profileQuery}`}
@@ -65,6 +119,7 @@ export default function StoryPage({ params, searchParams }: Props) {
             ))}
           </div>
         </section>
+
       </main>
     </div>
   );
