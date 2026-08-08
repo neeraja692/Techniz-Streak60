@@ -15,7 +15,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ABTalks — 60-Day Build Challenge",
+  title: "Streak60 — 60-Day Build Challenge",
   description:
     "Pick a track. Build daily. Prove it with a commit and a post. A 60-day challenge for Indian college students who want recruiters to notice their work.",
 };
