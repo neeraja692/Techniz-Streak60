@@ -1,0 +1,354 @@
+{
+  "meta": {
+    "challengeLength": 60,
+    "today": 12
+  },
+  "tracks": [
+    {
+      "id": "web",
+      "name": "Full Stack Web Dev"
+    },
+    {
+      "id": "ai",
+      "name": "AI / ML Engineering"
+    },
+    {
+      "id": "dsa",
+      "name": "DSA & Problem Solving"
+    }
+  ],
+  "profiles": {
+    "default": {
+      "name": "Aditi Sharma",
+      "college": "VJTI, Mumbai",
+      "track": "web",
+      "avatarInitials": "AS",
+      "joinedDay": 1,
+      "currentStreak": 2,
+      "longestStreak": 8,
+      "freezesUsed": 0,
+      "freezesTotal": 2,
+      "totalDaysCompleted": 10,
+      "badges": [
+        {
+          "id": "first-commit",
+          "label": "First Commit",
+          "earnedDay": 1
+        },
+        {
+          "id": "week-one",
+          "label": "7-Day Warrior",
+          "earnedDay": 7
+        },
+        {
+          "id": "night-owl",
+          "label": "Night Owl",
+          "earnedDay": 5
+        }
+      ],
+      "rank": 214,
+      "totalStudents": 3820,
+      "recruiterScore": 62,
+      "recruiterSuggestions": [
+        "Add a project link to your Day 10 LinkedIn post",
+        "Your last 2 commit messages are under 4 words \u2014 recruiters skim these first",
+        "Pin your best repo from this challenge to your GitHub profile"
+      ],
+      "aiSummary": "Aditi has shipped 10 of the last 12 days on the Full Stack Web Dev track, including an accessible modal with proper focus-trapping and a client-side rate limiter built without libraries \u2014 both signal she reaches for the harder, more correct implementation rather than the shortcut. She missed Day 9 (infinite scroll) but recovered the next day, submitting Day 10 late rather than skipping it. Momentum is trending up: 8-day streak at its peak, current run of 2 after the miss."
+    },
+    "newUser": {
+      "name": "Rohan Verma",
+      "college": "IIT Indore",
+      "track": "ai",
+      "avatarInitials": "RV",
+      "joinedDay": 1,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "freezesUsed": 0,
+      "freezesTotal": 2,
+      "totalDaysCompleted": 0,
+      "badges": [],
+      "rank": null,
+      "totalStudents": 3820,
+      "recruiterScore": 0,
+      "recruiterSuggestions": [
+        "Submit Day 1 to get your first score"
+      ],
+      "aiSummary": "Rohan just joined the AI / ML Engineering track and hasn't submitted Day 1 yet \u2014 there's no build history to summarize. Check back after the first submission."
+    },
+    "empty": {
+      "name": "Guest Student",
+      "college": null,
+      "track": null,
+      "avatarInitials": "?",
+      "joinedDay": null,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "freezesUsed": 0,
+      "freezesTotal": 2,
+      "totalDaysCompleted": 0,
+      "badges": [],
+      "rank": null,
+      "totalStudents": 3820,
+      "recruiterScore": 0,
+      "recruiterSuggestions": [],
+      "aiSummary": null
+    }
+  },
+  "days": {
+    "1": {
+      "title": "Build Your Dev Landing Page",
+      "status": "completed",
+      "description": "Every builder needs a home base. Build a single-page personal site with your name, one-line bio, and links to GitHub + LinkedIn.",
+      "requirements": [
+        "Responsive on mobile",
+        "Deployed and publicly accessible",
+        "Includes your name and a short bio"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/dev-landing",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day1",
+        "submittedAt": "2026-06-01T22:41:00Z",
+        "late": false
+      },
+      "caption": "Shipped my first project of the challenge \u2014 a landing page I'm actually proud of."
+    },
+    "2": {
+      "title": "Responsive Navbar Component",
+      "status": "completed",
+      "description": "Build a reusable navbar component that collapses into a hamburger menu below 480px.",
+      "requirements": [
+        "Mobile hamburger menu",
+        "Keyboard accessible",
+        "No layout shift on open/close"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/navbar-component",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day2",
+        "submittedAt": "2026-06-02T23:02:00Z",
+        "late": false
+      },
+      "caption": "Nailed the hamburger menu breakpoint on the third try."
+    },
+    "3": {
+      "title": "Form Validation From Scratch",
+      "status": "completed",
+      "description": "Build a signup form with client-side validation \u2014 no libraries. Handle empty fields, invalid email, and weak passwords.",
+      "requirements": [
+        "No validation libraries",
+        "Inline error messages",
+        "Disable submit until valid"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/form-validation",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day3",
+        "submittedAt": "2026-06-03T21:55:00Z",
+        "late": false
+      },
+      "caption": "No libraries, just vanilla validation. Felt good to build it from scratch."
+    },
+    "4": {
+      "title": "Fetch and Render an API",
+      "status": "completed",
+      "description": "Pick any public API and render its data as cards, with loading and error states.",
+      "requirements": [
+        "Handles loading state",
+        "Handles fetch failure",
+        "Renders at least 6 items"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/api-cards",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day4",
+        "submittedAt": "2026-06-04T22:10:00Z",
+        "late": false
+      },
+      "caption": "First time handling a failed fetch gracefully instead of just console.logging it."
+    },
+    "5": {
+      "title": "Dark Mode Toggle",
+      "status": "completed",
+      "description": "Add a persistent dark mode toggle to any past project using CSS variables.",
+      "requirements": [
+        "No flash of wrong theme on load",
+        "Toggle state persists on refresh",
+        "Meets contrast guidelines in both modes"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/dark-mode",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day5",
+        "submittedAt": "2026-06-06T00:20:00Z",
+        "late": false
+      },
+      "caption": "Dark mode with zero flash on load \u2014 harder than it looks."
+    },
+    "6": {
+      "title": "Build a Kanban Board",
+      "status": "completed",
+      "description": "Drag-and-drop task board with 3 columns: Todo, Doing, Done. Persist state locally.",
+      "requirements": [
+        "Drag and drop between columns",
+        "State persists on refresh",
+        "Add/delete tasks"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/kanban-board",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day6",
+        "submittedAt": "2026-06-06T23:40:00Z",
+        "late": false
+      },
+      "caption": "Drag-and-drop still feels like magic even after building it myself."
+    },
+    "7": {
+      "title": "Authentication UI Flow",
+      "status": "completed",
+      "description": "Build the UI (not backend) for login, signup, and forgot-password \u2014 including all error and loading states.",
+      "requirements": [
+        "3 connected screens",
+        "Loading + error states on submit",
+        "Mobile-first layout"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/auth-ui",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day7",
+        "submittedAt": "2026-06-07T22:05:00Z",
+        "late": false
+      },
+      "caption": "Spent most of today on error states nobody will ever compliment me for."
+    },
+    "8": {
+      "title": "Build a Markdown Previewer",
+      "status": "completed",
+      "description": "Live markdown editor with a real-time rendered preview pane.",
+      "requirements": [
+        "Live preview updates on keystroke",
+        "Supports headers, bold, links, code blocks",
+        "Works on mobile as stacked panes"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/md-previewer",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day8",
+        "submittedAt": "2026-06-08T21:30:00Z",
+        "late": false
+      },
+      "caption": null
+    },
+    "9": {
+      "title": "Infinite Scroll Feed",
+      "status": "missed",
+      "description": "Build a feed that loads more items as the user scrolls, without pagination buttons.",
+      "requirements": [
+        "No 'load more' button",
+        "Handles end-of-data state",
+        "Smooth on mobile scroll"
+      ],
+      "submission": null,
+      "caption": "Missed today \u2014 exam prep took over. Back tomorrow."
+    },
+    "10": {
+      "title": "Accessible Modal Component",
+      "status": "completed",
+      "description": "Build a modal that traps focus, closes on Escape, and restores focus to the trigger element on close.",
+      "requirements": [
+        "Focus trap while open",
+        "Escape key closes it",
+        "Focus returns to trigger on close"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/accessible-modal",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day10",
+        "submittedAt": "2026-06-10T22:50:00Z",
+        "late": true
+      },
+      "caption": "Focus trap finally clicked. Submitted a day late but didn't skip it."
+    },
+    "11": {
+      "title": "Rate Limiter (Client-Side)",
+      "status": "completed",
+      "description": "Implement a simple client-side rate limiter for a search input using debounce and throttle.",
+      "requirements": [
+        "Debounced input",
+        "Visual feedback while waiting",
+        "No unnecessary API calls"
+      ],
+      "submission": {
+        "github": "https://github.com/aditisharma/rate-limiter",
+        "linkedin": "https://linkedin.com/posts/aditisharma-day11",
+        "submittedAt": "2026-06-11T23:15:00Z",
+        "late": false
+      },
+      "caption": "Debounce vs throttle finally makes sense in my hands, not just in theory."
+    },
+    "12": {
+      "title": "Build a Streak Tracker Widget",
+      "status": "pending",
+      "description": "Build a small embeddable widget that visualizes a daily streak as a grid of filled/empty cells, similar to a GitHub contribution graph. It should take a simple array of booleans as input and render entirely client-side.",
+      "requirements": [
+        "Renders a grid from an array of daily completion values",
+        "Distinct visual states for completed, missed, and today",
+        "Fully responsive down to 320px width",
+        "No external charting library \u2014 build the grid yourself"
+      ],
+      "submission": null,
+      "caption": "Today's build: turning my own streak into a widget."
+    },
+    "13": {
+      "title": "Command Palette (Cmd+K)",
+      "status": "locked",
+      "description": "Build a searchable command palette triggered by Cmd+K / Ctrl+K.",
+      "requirements": [],
+      "submission": null,
+      "caption": null
+    },
+    "14": {
+      "title": "Optimistic UI Updates",
+      "status": "locked",
+      "description": "Implement optimistic updates for a like/upvote button with rollback on failure.",
+      "requirements": [],
+      "submission": null,
+      "caption": null
+    }
+  },
+  "leaderboard": [
+    {
+      "rank": 1,
+      "name": "Priya Nair",
+      "college": "NIT Trichy",
+      "streak": 12,
+      "track": "web"
+    },
+    {
+      "rank": 2,
+      "name": "Karan Mehta",
+      "college": "BITS Pilani",
+      "streak": 11,
+      "track": "ai"
+    },
+    {
+      "rank": 3,
+      "name": "Sneha Iyer",
+      "college": "IIT Bombay",
+      "streak": 11,
+      "track": "dsa"
+    },
+    {
+      "rank": 4,
+      "name": "Arjun Rao",
+      "college": "VIT Vellore",
+      "streak": 10,
+      "track": "web"
+    },
+    {
+      "rank": 5,
+      "name": "Fatima Sheikh",
+      "college": "Jamia Millia",
+      "streak": 10,
+      "track": "ai"
+    }
+  ],
+  "landingStats": {
+    "activeStudents": 3820,
+    "commitsShipped": 41200,
+    "avgCompletionRate": 71,
+    "colleges": 214
+  }
+}

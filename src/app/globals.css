@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0b0f14;
+  --color-ink-raised: #121820;
+  --color-ink-border: #1f2833;
+  --color-text: #e8eaed;
+  --color-text-muted: #8b96a3;
+  --color-text-faint: #59626d;
+  --color-amber: #f5a623;
+  --color-amber-dim: #7a5716;
+  --color-green: #3ddc84;
+  --color-green-dim: #1c5c3a;
+  --color-red: #e5484d;
+  --color-red-dim: #5c2426;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-raised: var(--color-ink-raised);
+  --color-ink-border: var(--color-ink-border);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-faint: var(--color-text-faint);
+  --color-amber: var(--color-amber);
+  --color-amber-dim: var(--color-amber-dim);
+  --color-green: var(--color-green);
+  --color-green-dim: var(--color-green-dim);
+  --color-red: var(--color-red);
+  --color-red-dim: var(--color-red-dim);
+  --font-display: var(--font-plex-mono);
+  --font-body: var(--font-manrope);
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-text);
+}
+
+* {
+  border-color: var(--color-ink-border);
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
