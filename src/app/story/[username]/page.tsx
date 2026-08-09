@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { getAllDays, getProfile, resolveProfileKey, computeMomentumScore, getTrackName, buildStreakGrid } from "@/lib/data";
+import { getEffectiveDays, getProfile, resolveProfileKey, computeMomentumScore, getTrackName, buildStreakGrid } from "@/lib/data";
 import TimelineItem from "@/components/TimelineItem";
 import { CommitGrid } from "@/components/CommitGrid";
 
@@ -15,17 +15,8 @@ export default async function StoryPage({ params, searchParams }: Props) {
 
   const profileKey = resolveProfileKey(username);
   const profile = getProfile(profileKey);
-  const rawDays = getAllDays().slice(0, 12);
-const days =
-  profileKey === "default"
-    ? rawDays
-    : rawDays.map((d) => ({
-        ...d,
-        status: d.day === 1 ? ("pending" as const) : ("locked" as const),
-        submission: null,
-        caption: d.day === 1 ? "Your streak starts the moment you submit today." : null,
-      }));
-
+  const days = getEffectiveDays(profileKey).slice(0, 12);
+  
   const profileQuery = queryProfile ? `?profile=${queryProfile}` : `?profile=${profileKey}`;
   const momentum = computeMomentumScore(profileKey);
   const trackName = getTrackName(profile.track);
