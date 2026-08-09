@@ -10,8 +10,8 @@ This log documents the actual build process for the ABTalks (Streak60) redesign 
 
 ## Table of Contents
 
-1. [Shreya — Landing Page, Theming, Builder Story](#part-1--shreya-person-b)
-2. [Neeraja — Data Layer, Dashboard, Cross-Page Fix](#part-2--neeraja-person-a)
+1. [Shreya — Landing Page, Theming, Builder Story](#part-1--shreya)
+2. [Neeraja — Data Layer, Dashboard, Cross-Page Fix](#part-2--neeraja)
 3. [Combined Final Feature Set](#part-3--combined-final-feature-set)
 
 ---
@@ -61,7 +61,7 @@ Standard instinct is to build the easiest screen first (landing) for early momen
 
 The original plan specified Next.js + Tailwind + Vercel. Once inside the actual build environment (no network access for `npm install`), the approach was adapted to **static HTML/CSS/JS** with an identical folder-per-route structure (`/`, `/dashboard/`, `/day/12/`), so the required route map still held exactly — deployable to Vercel with zero build step.
 
-> This static build was later migrated into the shared Next.js app — see [Section 9](#9-nextjs-migration--refactoring).
+> This static build was later migrated into the shared Next.js app — see Section 9.
 
 ### 6. A Real Bug, Caught and Fixed
 
@@ -96,7 +96,7 @@ This section details the prompts and AI conversation log during the migration of
 #### Phase 1 — Project Diagnosis & Scope Alignment
 
 **Prompt:**
-> "This my repo https://github.com/neeraja692/Techniz-Streak60, where my project is, view it and analyse. Here's the full plan... I am Shreya (Shreya). Is my work completed?"
+> "This my repo https://github.com/neeraja692/Techniz-Streak60, where my project is, view it and analyse. Here's the full plan... I am Shreya. Is my work completed?"
 
 **Actions Taken:**
 - Audited the cloned codebase
@@ -182,8 +182,8 @@ This section details the prompts and AI conversation log during the migration of
 **Actions Taken:**
 - Built `src/app/dashboard/page.tsx`: streak card, Momentum Score card, today's task card linking to the correct day, progress grid + legend, completion %, standing, and an achievements/badges section
 - Implemented `computeMomentumScore()` — a decay-based alternative to a binary streak (+8 per completed day capped at 100, -20 per missed day floored at 0), the team's chosen "thoughtful feature" for consistency
-- Built explicit handling for all three required edge cases via a `?profile=` query param and an in-UI profile switcher: `default` (mid-challenge, includes a missed-day banner), `newUser` (Day 1, zero streak), and `empty` (dedicated empty state with a single clear CTA)
-- Verified with `npx tsc --noEmit` and `npx eslint src/` — both clean; fixed two pre-existing lint errors (unescaped quotes/apostrophes) and one stale UI string still referencing the demoted "Recruiter Radar" feature instead of Momentum Score
+- Built explicit handling for all three required edge cases via a `?profile=` query param and an in-UI profile switcher
+- Verified with `npx tsc --noEmit` and `npx eslint src/` — both clean; fixed two pre-existing lint errors and one stale UI string still referencing the demoted "Recruiter Radar" feature instead of Momentum Score
 - Rendered and screenshotted the dashboard and day page at 390px width across all three profiles using a headless browser, to visually confirm the edge cases before calling the work done
 
 ### Phase 6 — A Real Bug, Found and Fixed
@@ -193,7 +193,7 @@ This section details the prompts and AI conversation log during the migration of
 
 **Actions Taken:**
 - **Diagnosis:** `/day/1` was showing the `newUser` and `empty` profiles the `default` profile's (Aditi's) completed GitHub/LinkedIn submission, because the day page trusted global day-status data regardless of which mock profile was viewing it
-- **Fix:** added a shared `getCurrentDayForProfile()` helper to `lib/data.ts` (`default` profile stays on the global "today"; `newUser` and `empty` are always freshly on Day 1), used by both the dashboard and the day page so they can never disagree on which day a profile is actually on
+- **Fix:** added a shared `getCurrentDayForProfile()` helper to `lib/data.ts`, used by both the dashboard and the day page so they can never disagree on which day a profile is actually on
 - Re-verified with `tsc`, `eslint`, and a full screenshot regression pass across both pages after the fix to confirm nothing else broke
 
 ### Phase 7 — Rename and Documentation
@@ -203,7 +203,7 @@ This section details the prompts and AI conversation log during the migration of
 
 **Actions Taken:**
 - Renamed the project from "ABTalks" to "Streak60" across the browser tab title (`layout.tsx`) and `package.json`
-- Replaced the untouched `create-next-app` default README with a real project README, including the required Route Map (`/`, `/dashboard`, `/day/12`), edge-case test URLs, the Momentum Score feature explanation, and the project's file structure
+- Replaced the untouched `create-next-app` default README with a real project README, including the required Route Map, edge-case test URLs, the Momentum Score feature explanation, and the project's file structure
 
 ### Phase 8 — Integration with Shreya's Work
 
@@ -214,10 +214,8 @@ This section details the prompts and AI conversation log during the migration of
 - Diagnosed a rejected push caused by Shreya's already-merged `feature/story-page` branch existing on the remote
 - Re-cloned the repository fresh into a clean folder to avoid an unresolved local merge state, rather than force-pushing over a teammate's work
 - Confirmed `db.json`'s `aiSummary` and `caption` fields survived Shreya's merge intact
-- Found that `getCurrentDayForProfile()` (added in Phase 6) was missing from the freshly cloned repo, since that fix postdated the last push — added it back into the correct `lib/data.ts` in the clean clone before pushing, so the dashboard wouldn't fail to build against the current shared file
-- Copied `dashboard/page.tsx` into the fresh clone and pushed cleanly on top of Shreya's existing history (verified via `git diff HEAD origin/main` returning empty — confirming an exact match between local and remote)
-
----
+- Found `getCurrentDayForProfile()` was missing from the freshly cloned repo, since that fix postdated the last push — added it back before pushing
+- Copied `dashboard/page.tsx` into the fresh clone and pushed cleanly on top of Shreya's existing history (verified via `git diff HEAD origin/main` returning empty)
 
 ### Phase 9 — Integration Verification and Deployment
 
@@ -225,9 +223,32 @@ This section details the prompts and AI conversation log during the migration of
 > "i have done integration does on antigravity does that need to be mention also deployement on vercel"
 
 **Actions Taken:**
-- After both teammates' work was merged on GitHub (Neeraja's dashboard/data-layer branch pushed cleanly on top of Shreya's `feature/story-page` merge), the final merged codebase was handed to Antigravity (AI coding tool) to independently run and verify the application.
-- The application ran successfully with no errors — confirming the merge was clean and both teammates' pages (`/`, `/dashboard`, `/day/12`, `/story/[username]`) worked together correctly from a fresh checkout.
-- The same merged codebase was then deployed to Vercel, with no build or runtime errors.
+- After both teammates' work was merged on GitHub, the final merged codebase was handed to Antigravity (AI coding tool) to independently run and verify the application
+- The application ran successfully with no errors on that first check
+- The same merged codebase was then deployed to Vercel
+
+### Phase 10 — Post-Deployment Bug Fixes: Profile-Consistent Day Data
+
+After initial deployment, further testing surfaced that profile-specific overrides had not been applied consistently across every page reading day data, leading to two related but distinct bugs.
+
+**Prompt:**
+> "landing page ke baad start day 1 click karne ke baad woh day 12 pe leke jaata hai" → "for every builder story even if it is first timer or mid or clean the same challeneges kar given shipped missed and late submission"
+
+**Actions Taken:**
+- **Bug 1 — landing page CTA:** The "Start Day 1" button's `href` was computed as `profile === "default" ? /day/12 : /day/1`, so on initial page load (before the sandbox toggle is touched, defaulting to `"default"`), the button silently routed to Day 12 instead of Day 1. Fixed by decoupling the CTA from the sandbox toggle state entirely and hardcoding it to route a fresh visitor to the correct empty-state day.
+- **Bug 2 — story page timeline:** `/story/[username]` was calling `getAllDays()` directly for its Build Timeline section, which returns only the seeded `default` profile's real history. This meant `newUser` and `empty` profiles both displayed the `default` profile's actual shipped/missed/late submission data as if it were their own — a second instance of the same class of bug as Phase 6, in a file that hadn't been covered by that earlier fix.
+
+**Follow-up design decision — differentiating `newUser` and `empty`:**
+> "but that won't be first timer" / "option b" (choosing between two proposed resolutions for what "first timer" should mean)
+
+- Discussed and resolved a naming/logic conflict: an initial fix made `newUser`'s Day 1 "completed" while its sandbox label still said "First Timer" — contradictory. Resolved by deciding `empty` (Guest) represents the true zero-state/first-timer, while `newUser` (Rohan) represents a student who has already shipped Day 1 (streak of 1), giving the two mock profiles a genuine, non-overlapping distinction instead of nearly-identical zero states.
+- Refactored `lib/data.ts` to centralize all profile-specific day logic into two new functions, `getEffectiveDay()` and `getEffectiveDays()`, replacing the narrower, single-purpose `getCurrentDayForProfile()` used since Phase 6. `computeMomentumScore()` and `buildStreakGrid()` were rewritten to read through this same centralized function, so the day page, story page, dashboard, streak grid, and Momentum Score can no longer disagree with each other about a given profile's state.
+- Updated `db.json`'s `newUser` profile fields (`currentStreak`, `totalDaysCompleted`, `badges`, `aiSummary`) and added a real mocked GitHub/LinkedIn submission for Rohan's Day 1 to match the new "just shipped Day 1" narrative.
+
+**Deployment issue encountered and resolved:**
+- After pushing the `getEffectiveDay` refactor, the Vercel build failed: `dashboard/page.tsx` (built in Phase 5) still imported `getCurrentDayForProfile`, which had been removed from `lib/data.ts` during the refactor without checking that dependency.
+- Diagnosis and fix performed directly against the Vercel build log output. `getCurrentDayForProfile()` was restored alongside the new `getEffectiveDay()`/`getEffectiveDays()` functions — the two serve different purposes (a single "which day is this profile on" number vs. a full per-day status lookup) and coexist without conflict.
+- Confirmed fix by re-checking the file's exports directly on GitHub before re-pushing, avoiding a second blind push.
 
 ---
 
@@ -237,14 +258,16 @@ This section details the prompts and AI conversation log during the migration of
 |---|---|---|
 | Proof Page — AI-generated recruiter summary + 60-day Builder Story timeline | Shreya | `/story/[username]` |
 | Momentum Score — decaying, forgiving alternative to a binary streak | Neeraja | `/dashboard`, `/story/[username]` |
-| Shared data layer — single source of truth for both teammates' pages | Neeraja (extended by Shreya) | `src/lib/data.ts`, `src/data/db.json` |
+| Shared data layer — single source of truth for both teammates' pages, centralized around `getEffectiveDay()` / `getEffectiveDays()` | Neeraja (extended by Shreya) | `src/lib/data.ts`, `src/data/db.json` |
 
 **Required routes — all covered:**
 - `/` — Shreya
 - `/dashboard` — Neeraja
 - `/day/12` — Neeraja and Shreya
 
-**Required edge cases — all covered:**
-- Day 1 / no streak — `/day/1` (both)
-- Missed-day state — visible on dashboard and day page, not hidden
-- Empty profile — `/dashboard?profile=empty`, `/story/empty`
+**Required edge cases — all covered, and made mutually distinct:**
+- **`newUser` (Rohan)** — shipped Day 1 with a real mocked submission; streak of 1, one badge earned. Represents "just started building."
+- **`empty` (Guest)** — no track, no submissions, Day 1 still pending. The true zero-state / first-timer edge case.
+- **Missed-day state** — visible on dashboard and day page (Day 9, `default` profile), not hidden or silently skipped.
+
+**Note on iteration:** the two mock profiles (`newUser`, `empty`) initially overlapped too closely — both represented a zero/empty state with only cosmetic differences in name and copy. This was deliberately revisited after the fact to give them a genuine behavioral difference (one has real progress, one doesn't), which required refactoring the day-status logic into a single centralized function (`getEffectiveDay`) rather than leaving profile-specific overrides scattered across the day page, story page, and dashboard independently — the earlier scattered approach was what caused the Phase 6 and Phase 10 bugs in the first place.
