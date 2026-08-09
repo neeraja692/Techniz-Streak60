@@ -11,8 +11,9 @@ export default function Home() {
   // Map chosen profile to the correct routing parameter
   const profileQuery = `?profile=${profile}`;
 
-  // Start Day 1 routing logic:
-  const startDayHref = "/day/1?profile=newUser";
+  // Start Day 1 routing logic: always send a fresh visitor to the true
+  // empty state (Guest / "empty" profile), regardless of sandbox toggle.
+  const startDayHref = "/day/1?profile=empty";
   const exploreDayHref = `/day/12${profileQuery}`;
   const storyHref = `/story/${profile === "default" ? "default" : profile}${profileQuery}`;
 
@@ -179,9 +180,9 @@ export default function Home() {
 
             <div className="grid grid-cols-3 gap-2 mb-4">
               {[
-                { key: "default", label: "Aditi Sharma", desc: "Default Active" },
-                { key: "newUser", label: "Rohan Verma", desc: "First Timer" },
-                { key: "empty", label: "Guest Student", desc: "Clean Slate" }
+                { key: "default", label: "Aditi Sharma", desc: "Mid-Challenge" },
+                { key: "newUser", label: "Rohan Verma", desc: "Just Shipped Day 1" },
+                { key: "empty", label: "Guest Student", desc: "First Timer" }
               ].map((p) => (
                 <button
                   key={p.key}
