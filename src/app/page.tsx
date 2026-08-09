@@ -12,7 +12,7 @@ export default function Home() {
   const profileQuery = `?profile=${profile}`;
 
   // Start Day 1 routing logic:
-  const startDayHref = `/day/1${profileQuery}`;
+  const startDayHref = "/day/1?profile=newUser";
   const exploreDayHref = `/day/12${profileQuery}`;
   const storyHref = `/story/${profile === "default" ? "default" : profile}${profileQuery}`;
 
