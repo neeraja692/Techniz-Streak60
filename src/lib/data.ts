@@ -97,15 +97,75 @@ export function getToday(): number {
   return db.meta.today;
 }
 
+type DayOverride = {
+  status: DayStatus;
+  submission: Submission | null;
+  caption?: string | null;
+};
+
 /**
- * The "current day" a given profile is actually on. Only the default
- * profile has seeded per-day history (through Day 12); 
-ewUser and
- * empty are always freshly on Day 1, regardless of the global
- * meta.today value.
+ * Per-profile overrides for specific days. `default` (Aditi) needs no
+ * overrides — her real seeded history is used as-is. `newUser` (Rohan)
+ * has shipped Day 1 for real (his own mocked submission). `empty`
+ * (Guest) is the true zero state: Day 1 pending, nothing submitted.
  */
-export function getCurrentDayForProfile(profileKey: ProfileKey): number {
-  return profileKey === "default" ? getToday() : 1;
+function getProfileDayOverrides(profileKey: ProfileKey): Record<number, DayOverride> {
+  if (profileKey === "newUser") {
+    return {
+      1: {
+        status: "completed",
+        submission: {
+          github: "https://github.com/rohanverma/ai-landing-page",
+          linkedin: "https://linkedin.com/posts/rohanverma-day1",
+          submittedAt: "2026-08-08T23:10:00Z",
+          late: false,
+        },
+        caption: "Shipped my first AI/ML track project — a landing page for my model demo.",
+      },
+    };
+  }
+  if (profileKey === "empty") {
+    return {
+      1: { status: "pending", submission: null, caption: null },
+    };
+  }
+  return {};
+}
+
+/**
+ * The single place that decides what a given day looks like for a given
+ * profile. `default` uses the real seeded history untouched. `newUser`
+ * and `empty` get their overrides applied here — day page, story page,
+ * the streak grid, and Momentum Score all read through this, so they
+ * can never disagree with each other again.
+ */
+export function getEffectiveDay(
+  dayNumber: number,
+  profileKey: ProfileKey
+): ChallengeDay | undefined {
+  const base = getDay(dayNumber);
+  if (profileKey === "default") return base;
+
+  const override = getProfileDayOverrides(profileKey)[dayNumber];
+  if (override) {
+    return {
+      day: dayNumber,
+      title: base?.title ?? "Untitled",
+      description: base?.description ?? "",
+      requirements: base?.requirements ?? [],
+      status: override.status,
+      submission: override.submission,
+      caption: override.caption ?? null,
+    };
+  }
+
+  return base
+    ? { ...base, status: "locked", submission: null, caption: null }
+    : undefined;
+}
+
+export function getEffectiveDays(profileKey: ProfileKey): ChallengeDay[] {
+  return getAllDays().map((d) => getEffectiveDay(d.day, profileKey)!);
 }
 
 export function getChallengeLength(): number {
@@ -125,12 +185,11 @@ export function getLandingStats() {
  * A completed day adds a fixed amount (capped at 100); a missed day
  * costs more than a completed day gains, so momentum still trends
  * down on misses, but one bad day doesn't zero out weeks of work
- * the way a classic streak-reset does.
+ * the way a classic streak-reset does. Reads through getEffectiveDays
+ * so it always agrees with what the day page and story page show.
  */
 export function computeMomentumScore(profileKey: ProfileKey): number {
-  if (profileKey === "empty" || profileKey === "newUser") return 0;
-
-  const days = getAllDays();
+  const days = getEffectiveDays(profileKey);
   let score = 0;
   for (const d of days) {
     if (d.status === "completed") score = Math.min(100, score + 8);
@@ -142,24 +201,16 @@ export function computeMomentumScore(profileKey: ProfileKey): number {
 /**
  * For a given profile, build the 60-slot grid used by the commit-grid
  * signature component. Days beyond what's defined in mock data are
- * treated as locked/upcoming.
+ * treated as locked/upcoming. Reads through getEffectiveDays so it
+ * always agrees with the day page and story page.
  */
 export function buildStreakGrid(profileKey: ProfileKey): DayStatus[] {
   const length = getChallengeLength();
-  const days = getAllDays();
+  const effectiveDays = getEffectiveDays(profileKey);
+  const byDay = new Map(effectiveDays.map((d) => [d.day, d.status]));
   const grid: DayStatus[] = [];
-
-  if (profileKey === "empty" || profileKey === "newUser") {
-    for (let i = 1; i <= length; i++) {
-      grid.push(i === 1 ? "pending" : "locked");
-    }
-    return grid;
-  }
-
-  const byDay = new Map(days.map((d) => [d.day, d.status]));
   for (let i = 1; i <= length; i++) {
     grid.push(byDay.get(i) ?? "locked");
   }
   return grid;
 }
-
