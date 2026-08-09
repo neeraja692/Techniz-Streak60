@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
- getEffectiveDay,
+  getEffectiveDay,
   getToday,
   getChallengeLength,
   resolveProfileKey,
@@ -28,7 +28,8 @@ export default async function DayPage({
   const length = getChallengeLength();
   const day = getEffectiveDay(dayNum, profileKey);
 
-  // Dynamic status computation: links day status to the profile's active grid
+  // Status now comes straight from the effective day itself (already
+  // profile-aware), not a separate grid lookup — single source of truth.
   const grid = buildStreakGrid(profileKey);
   const status = day?.status ?? "locked";
 
@@ -99,13 +100,14 @@ function PathStrip({
   profileKey: string;
   grid: DayStatus[];
 }) {
-  const pathGrid = grid.slice(0, Math.max(dayNum, 10)); // Draw first 10 for day 1, or dayNum cells
   const actualPathSlice = grid.slice(0, dayNum);
   const completedCount = actualPathSlice.filter((s) => s === "completed").length;
   const missedCount = actualPathSlice.filter((s) => s === "missed").length;
 
-  // Render a specific empty state if first-timer on Day 1 (No Streak Yet - And That's Fine)
-  if (dayNum === 1 && (profileKey === "newUser" || profileKey === "empty")) {
+  // Render the "no streak yet" empty state only for the true zero-state
+  // profile (empty/Guest). newUser (Rohan) has a real completed Day 1
+  // now, so he no longer qualifies for this block.
+  if (dayNum === 1 && profileKey === "empty") {
     return (
       <div className="rounded-xl border border-ink-border bg-ink-raised p-4 text-center mt-4 mb-6">
         <div className="text-2xl mb-1">🌙</div>
@@ -156,7 +158,7 @@ function PathStrip({
             <div
               key={i}
               title={`Day ${i + 1}: ${status}`}
-              className={`w-2.5 h-2.5 rounded-[3px] ${isToday ? cellStyles["pending"] : cellStyles[status]}`}
+              className={`w-2.5 h-2.5 rounded-[3px] ${isToday && status === "pending" ? cellStyles["pending"] : cellStyles[status]}`}
             />
           );
         })}
@@ -190,7 +192,7 @@ function TaskHeader({
         <StatusPill label={label} tone={tone} />
       </div>
       
-      {day.day === 1 && (profileKey === "newUser" || profileKey === "empty") ? (
+      {day.day === 1 && profileKey === "empty" ? (
         <span className="text-[10px] uppercase tracking-wider font-bold text-amber font-[family-name:var(--font-plex-mono)]">
           NO STREAK YET — AND THAT'S FINE
         </span>
@@ -235,7 +237,7 @@ function PendingState({
   profileKey,
   grid,
 }: {
-  day: NonNullable<ReturnType<typeof getDay>>;
+  day: NonNullable<ReturnType<typeof getEffectiveDay>>;
   profileKey: string;
   grid: DayStatus[];
 }) {
@@ -252,7 +254,7 @@ function CompletedState({
   profileKey,
   grid,
 }: {
-  day: NonNullable<ReturnType<typeof getDay>>;
+  day: NonNullable<ReturnType<typeof getEffectiveDay>>;
   profileKey: string;
   grid: DayStatus[];
 }) {
@@ -298,7 +300,7 @@ function MissedState({
   profileKey,
   grid,
 }: {
-  day: NonNullable<ReturnType<typeof getDay>>;
+  day: NonNullable<ReturnType<typeof getEffectiveDay>>;
   profileKey: string;
   grid: DayStatus[];
 }) {
