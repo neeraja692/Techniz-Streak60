@@ -56,25 +56,29 @@
       ],
       "aiSummary": "Aditi has shipped 10 of the last 12 days on the Full Stack Web Dev track, including an accessible modal with proper focus-trapping and a client-side rate limiter built without libraries \u2014 both signal she reaches for the harder, more correct implementation rather than the shortcut. She missed Day 9 (infinite scroll) but recovered the next day, submitting Day 10 late rather than skipping it. Momentum is trending up: 8-day streak at its peak, current run of 2 after the miss."
     },
-    "newUser": {
-      "name": "Rohan Verma",
-      "college": "IIT Indore",
-      "track": "ai",
-      "avatarInitials": "RV",
-      "joinedDay": 1,
-      "currentStreak": 0,
-      "longestStreak": 0,
-      "freezesUsed": 0,
-      "freezesTotal": 2,
-      "totalDaysCompleted": 0,
-      "badges": [],
-      "rank": null,
-      "totalStudents": 3820,
-      "recruiterScore": 0,
-      "recruiterSuggestions": [
-        "Submit Day 1 to get your first score"
-      ],
-      "aiSummary": "Rohan just joined the AI / ML Engineering track and hasn't submitted Day 1 yet \u2014 there's no build history to summarize. Check back after the first submission."
+  "newUser": {
+  "name": "Rohan Verma",
+  "college": "IIT Indore",
+  "track": "ai",
+  "avatarInitials": "RV",
+  "joinedDay": 1,
+  "currentStreak": 1,
+  "longestStreak": 1,
+  "freezesUsed": 0,
+  "freezesTotal": 2,
+  "totalDaysCompleted": 1,
+  "badges": [
+    { "id": "first-commit", "label": "First Commit", "earnedDay": 1 }
+  ],
+  "rank": null,
+  "totalStudents": 3820,
+  "recruiterScore": 15,
+  "recruiterSuggestions": [
+    "Add a project link to your Day 1 LinkedIn post",
+    "Keep the streak going — Day 2 unlocks your next badge"
+  ],
+  "aiSummary": "Rohan just shipped Day 1 on the AI / ML Engineering track — a landing page for his model demo. One day in, momentum is building."
+}
     },
     "empty": {
       "name": "Guest Student",
