@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  getDay,
+ getEffectiveDay,
   getToday,
   getChallengeLength,
   resolveProfileKey,
@@ -26,11 +26,11 @@ export default async function DayPage({
 
   const today = getToday();
   const length = getChallengeLength();
-  const day = getDay(dayNum);
+  const day = getEffectiveDay(dayNum, profileKey);
 
   // Dynamic status computation: links day status to the profile's active grid
   const grid = buildStreakGrid(profileKey);
-  const status = grid[dayNum - 1] ?? "locked";
+  const status = day?.status ?? "locked";
 
   return (
     <main className="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-5 sm:max-w-2xl text-text selection:bg-amber selection:text-ink">
