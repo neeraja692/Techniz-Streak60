@@ -96,6 +96,16 @@ export function getAllDays(): ChallengeDay[] {
 export function getToday(): number {
   return db.meta.today;
 }
+/**
+ * The "current day" a given profile is on, as a single number — used
+ * by the dashboard to know which day to show as "today's task."
+ * `default` is on the global `meta.today`; `newUser` and `empty` are
+ * both still conceptually on Day 1 (that's the only day either of
+ * them has any data for, completed or not).
+ */
+export function getCurrentDayForProfile(profileKey: ProfileKey): number {
+  return profileKey === "default" ? getToday() : 1;
+}
 
 type DayOverride = {
   status: DayStatus;
