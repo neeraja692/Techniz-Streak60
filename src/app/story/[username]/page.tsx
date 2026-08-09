@@ -15,7 +15,16 @@ export default async function StoryPage({ params, searchParams }: Props) {
 
   const profileKey = resolveProfileKey(username);
   const profile = getProfile(profileKey);
-  const days = getAllDays().slice(0, 12); // Show first 12 for compact story
+  const rawDays = getAllDays().slice(0, 12);
+const days =
+  profileKey === "default"
+    ? rawDays
+    : rawDays.map((d) => ({
+        ...d,
+        status: d.day === 1 ? ("pending" as const) : ("locked" as const),
+        submission: null,
+        caption: d.day === 1 ? "Your streak starts the moment you submit today." : null,
+      }));
 
   const profileQuery = queryProfile ? `?profile=${queryProfile}` : `?profile=${profileKey}`;
   const momentum = computeMomentumScore(profileKey);
